@@ -11,6 +11,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,9 @@ public class ChatHandler extends TextWebSocketHandler {
         Message msg = new Message();
         msg.setUser(msgData.get("user"));
         msg.setMessage(msgData.get("message"));
+        msg.setRegDate(new Date());
+
+
         messageRepository.save(msg);
 
         String formattedMessage = objectMapper.writeValueAsString(msg);

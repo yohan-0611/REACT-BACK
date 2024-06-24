@@ -19,8 +19,6 @@ public class UserService {
     @Autowired
     private MemberRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     public Member save(MemberDTO memberDTO) {
     	Member member = new Member();
@@ -29,6 +27,8 @@ public class UserService {
         member.setRoles(Collections.singletonList("USER"));
         return userRepository.save(member);
     }
+    
+    
     
    
 }

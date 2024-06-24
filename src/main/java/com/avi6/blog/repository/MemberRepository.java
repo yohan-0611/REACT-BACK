@@ -10,4 +10,5 @@ import com.avi6.blog.model.Member;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
 	 Optional<Member> findByMemberId(String username);
+	 boolean existsByMemberId(String memberId);
 }

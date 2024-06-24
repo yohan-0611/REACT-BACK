@@ -1,5 +1,6 @@
 package com.avi6.blog.model;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,12 +11,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Message {
+public class Message{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String user;
     private String message;
+    private java.util.Date   regDate;
+
 
 
 }

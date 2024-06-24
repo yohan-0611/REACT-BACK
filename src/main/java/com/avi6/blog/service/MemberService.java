@@ -1,11 +1,15 @@
 package com.avi6.blog.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.avi6.blog.dto.ChangePasswordRequestDTO;
 import com.avi6.blog.dto.TokenInfo;
+import com.avi6.blog.model.Member;
 import com.avi6.blog.repository.MemberRepository;
 import com.avi6.blog.security.jwt.JwtTokenProvider;
 
@@ -16,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class MemberService {
+	
+	   @Autowired
+	    private PasswordEncoder passwordEncoder;
  
     private final MemberRepository memberRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -35,5 +42,19 @@ public class MemberService {
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
  
         return tokenInfo;
+    }
+    
+    @Transactional
+    public void changePassword(String memberId, String currentPassword, String newPassword) {
+        Member member = memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
+        System.out.println(member.getPassword() + currentPassword + "ㅋㅋㅋㅋ");
+        if (!currentPassword.equals(member.getPassword())) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        member.setPassword(newPassword);
+
+        memberRepository.save(member);
     }
 }
